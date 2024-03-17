@@ -7,6 +7,6 @@ import io.ktor.server.routing.*
 
 fun Route.root(){
     get("/") {
-        call.respondText("Welcome to Hero Sever", status = HttpStatusCode.OK)
+        call.respondText("Welcome to Hero Server", status = HttpStatusCode.OK)
     }
 }
