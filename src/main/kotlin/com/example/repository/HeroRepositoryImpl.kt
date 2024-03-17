@@ -2,6 +2,7 @@ package com.example.repository
 
 import com.example.models.ApiResponse
 import com.example.models.Hero
+import java.util.*
 
 const val PREVIOUS_PAGE = "prevPage"
 const val NEXT_PAGE = "nextPage"
@@ -425,8 +426,28 @@ class HeroRepositoryImpl:HeroRepository {
         return mapOf("prevPage" to prevPage,"nextPage" to nextPage)
     }
 
-    override suspend fun searchHeroes(name: String): ApiResponse {
-        TODO("Not yet implemented")
+    override suspend fun searchHeroes(name: String?): ApiResponse {
+        return ApiResponse(
+            success = true,
+            message = "ok",
+            heroes = findHeroes(name)
+        )
+    }
+
+    private fun findHeroes(name:String?):List<Hero>{
+        val foundedHeroes = mutableListOf<Hero>()
+        return if (!name.isNullOrEmpty()){
+            heroes.forEach { (t, heroes) ->
+                heroes.forEach{hero ->
+                    if (hero.name.lowercase(Locale.getDefault()).contains(name.toString().lowercase(Locale.getDefault()))){
+                        foundedHeroes.add(hero)
+                    }
+                }
+            }
+            foundedHeroes
+        }else{
+            emptyList<Hero>()
+        }
     }
 
     override fun equals(other: Any?): Boolean {
